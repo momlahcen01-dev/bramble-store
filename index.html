@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bramble & Co. — The Corner Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#20362B;
+    --green-mid:#33513F;
+    --cream:#F6EFDF;
+    --mustard:#D9A441;
+    --rust:#B0472F;
+    --charcoal:#241F1A;
+    --paper:#FBF6EB;
+    --line: rgba(36,31,26,0.15);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .mono{
+    font-family:'Space Mono', monospace;
+  }
+  a{color:inherit;}
+  img,svg{display:block;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- utility ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--rust);
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Fraunces', serif; font-weight:700; font-size:22px;
+  }
+  .logo .mark{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--green-deep);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .nav-links{
+    display:flex; gap:34px; align-items:center;
+    font-size:14.5px; font-weight:500;
+  }
+  .nav-links a{ text-decoration:none; position:relative; padding-bottom:3px; }
+  .nav-links a:not(.cart-btn):hover{ color:var(--rust); }
+  .nav-links a:not(.cart-btn)::after{
+    content:''; position:absolute; left:0; bottom:0; width:0%; height:1.5px;
+    background:var(--rust); transition:width .25s ease;
+  }
+  .nav-links a:not(.cart-btn):hover::after{ width:100%; }
+  .cart-btn{
+    display:flex; align-items:center; gap:8px;
+    background:var(--green-deep); color:var(--paper);
+    padding:9px 16px; border-radius:30px; border:none;
+    font-weight:600; font-size:14px;
+    text-decoration:none;
+  }
+  .cart-count{
+    background:var(--mustard); color:var(--charcoal);
+    font-family:'Space Mono',monospace; font-size:12px;
+    width:20px;height:20px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .menu-toggle{display:none;background:none;border:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:var(--green-deep);
+    color:var(--paper);
+    position:relative;
+    overflow:hidden;
+    padding:86px 0 64px;
+  }
+  .chalk-texture{
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,255,255,0.035) 0, transparent 45%),
+      radial-gradient(circle at 85% 70%, rgba(255,255,255,0.04) 0, transparent 40%);
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:48px; align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(40px, 5.4vw, 74px);
+    line-height:0.98;
+    font-style:italic;
+    font-weight:600;
+  }
+  .hero h1 em{
+    font-style:normal; font-weight:700; color:var(--mustard);
+  }
+  .hero-sub{
+    margin-top:22px; max-width:440px; font-size:17px; line-height:1.6;
+    color:rgba(251,246,235,0.82);
+  }
+  .hero-cta{
+    margin-top:32px; display:flex; gap:14px; flex-wrap:wrap;
+  }
+  .btn-primary{
+    background:var(--mustard); color:var(--charcoal); border:none;
+    padding:14px 26px; border-radius:30px; font-weight:600; font-size:15px;
+    transition:transform .18s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); }
+  .btn-ghost{
+    background:transparent; color:var(--paper); border:1px solid rgba(251,246,235,0.4);
+    padding:14px 26px; border-radius:30px; font-weight:600; font-size:15px; text-decoration:none;
+    transition:border-color .18s ease;
+  }
+  .btn-ghost:hover{ border-color:var(--paper); }
+
+  /* chalkboard */
+  .board{
+    background:var(--green-mid);
+    border:2px dashed rgba(251,246,235,0.25);
+    border-radius:6px;
+    padding:26px 26px 22px;
+    transform:rotate(1.3deg);
+  }
+  .board .eyebrow{color:var(--mustard);}
+  .board ul{ list-style:none; margin:14px 0 0; padding:0; }
+  .board li{
+    display:flex; justify-content:space-between; gap:10px;
+    font-family:'Space Mono', monospace; font-size:14.5px;
+    padding:9px 0; border-bottom:1px dashed rgba(251,246,235,0.2);
+    color:rgba(251,246,235,0.92);
+  }
+  .board li:last-child{border-bottom:none;}
+  .board li span:last-child{color:var(--mustard);}
+
+  /* ---------- category strip ---------- */
+  .cat-strip{
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:73px; z-index:40;
+  }
+  .cat-scroll{
+    display:flex; gap:10px; padding:14px 0; overflow-x:auto;
+  }
+  .cat-pill{
+    flex:0 0 auto;
+    padding:9px 18px; border-radius:30px; border:1px solid var(--line);
+    background:transparent; font-size:14px; font-weight:500;
+    white-space:nowrap;
+    transition:background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .cat-pill.active, .cat-pill:hover{
+    background:var(--green-deep); color:var(--paper); border-color:var(--green-deep);
+  }
+
+  /* ---------- product section ---------- */
+  .section{ padding:64px 0; }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:34px; gap:20px; flex-wrap:wrap;
+  }
+  .section-head h2{ font-size:clamp(28px,3.4vw,40px); }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:22px;
+  }
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px 18px 18px;
+    position:relative;
+    display:flex; flex-direction:column;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 14px 30px -18px rgba(32,54,43,0.35);
+  }
+  .icon-wrap{
+    width:100%; aspect-ratio:1/0.82;
+    background:var(--cream);
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px;
+    position:relative;
+    overflow:hidden;
+  }
+  .icon-wrap svg{ width:56%; height:56%; }
+  .tag{
+    position:absolute; top:10px; left:-8px;
+    background:var(--rust); color:var(--paper);
+    font-family:'Space Mono',monospace; font-size:11px; font-weight:700;
+    padding:4px 10px 4px 14px;
+    transform:rotate(-4deg);
+    border-radius:0 4px 4px 0;
+  }
+  .tag::before{
+    content:''; position:absolute; left:0; top:100%;
+    border-width:5px 4px 0 0; border-style:solid;
+    border-color:#7a2f1e transparent transparent transparent;
+  }
+  .card h3{ font-size:17px; font-weight:600; font-family:'Work Sans',sans-serif; margin-bottom:4px;}
+  .card .origin{ font-size:12.5px; color:rgba(36,31,26,0.55); margin-bottom:12px;}
+  .card-foot{
+    margin-top:auto; display:flex; align-items:center; justify-content:space-between;
+    padding-top:12px; border-top:1px dashed var(--line);
+  }
+  .price{
+    font-family:'Space Mono',monospace; font-weight:700; font-size:16px;
+  }
+  .price .unit{ font-size:11px; font-weight:400; color:rgba(36,31,26,0.5); }
+  .add-btn{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--green-deep); color:var(--paper); border:none;
+    font-size:18px; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .add-btn:hover{ background:var(--rust); transform:scale(1.08); }
+  .add-btn.added{ background:var(--mustard); color:var(--charcoal); }
+
+  /* ---------- story ---------- */
+  .story{
+    background:var(--green-deep); color:var(--paper);
+    padding:76px 0;
+  }
+  .story-inner{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:center;
+  }
+  .story h2{
+    font-size:clamp(30px,3.6vw,44px); font-style:italic; font-weight:500; line-height:1.15;
+  }
+  .story h2 em{ font-style:normal; color:var(--mustard); font-weight:700;}
+  .story p{ margin-top:20px; line-height:1.75; color:rgba(251,246,235,0.82); font-size:16px; max-width:480px;}
+  .stat-row{ display:flex; gap:38px; margin-top:30px; flex-wrap:wrap; }
+  .stat b{ display:block; font-family:'Fraunces',serif; font-size:32px; color:var(--mustard); }
+  .stat span{ font-size:12.5px; text-transform:uppercase; letter-spacing:0.08em; color:rgba(251,246,235,0.65); }
+  .polaroid{
+    background:var(--paper); padding:14px 14px 46px; border-radius:4px;
+    transform:rotate(-2deg);
+    box-shadow:0 24px 50px -20px rgba(0,0,0,0.5);
+  }
+  .polaroid .photo{
+    width:100%; aspect-ratio:4/3; border-radius:2px;
+    background:
+      linear-gradient(160deg, #6d8f6f 0%, #3f5c45 45%, #274933 100%);
+    position:relative; overflow:hidden;
+  }
+  .polaroid figcaption{
+    font-family:'Space Mono',monospace; font-size:12.5px; color:var(--charcoal);
+    text-align:center; margin-top:12px;
+  }
+
+  /* ---------- newsletter / receipt footer ---------- */
+  .receipt-section{ padding:70px 0; }
+  .receipt{
+    max-width:420px; margin:0 auto;
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:34px 30px;
+    font-family:'Space Mono', monospace;
+    box-shadow:0 20px 45px -28px rgba(32,54,43,0.4);
+  }
+  .receipt-header{ text-align:center; margin-bottom:18px; }
+  .receipt-header .display{ font-family:'Fraunces',serif; font-size:22px; }
+  .receipt hr{ border:none; border-top:1px dashed var(--line); margin:16px 0; }
+  .receipt-line{ display:flex; justify-content:space-between; font-size:13px; padding:5px 0; }
+  .receipt-form{ display:flex; gap:8px; margin-top:18px; }
+  .receipt-form input{
+    flex:1; padding:11px 12px; border:1px solid var(--line); border-radius:4px;
+    font-family:'Work Sans',sans-serif; font-size:14px; background:var(--cream);
+  }
+  .receipt-form button{
+    background:var(--green-deep); color:var(--paper); border:none;
+    padding:0 18px; border-radius:4px; font-weight:600; font-size:13px;
+  }
+  .receipt-note{ text-align:center; font-size:11.5px; margin-top:14px; color:rgba(36,31,26,0.5); }
+
+  footer{
+    background:var(--charcoal); color:rgba(251,246,235,0.7);
+    padding:44px 0 28px; font-size:13.5px;
+  }
+  .foot-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:30px;
+    padding-bottom:26px; border-bottom:1px solid rgba(251,246,235,0.12);
+  }
+  footer h4{ color:var(--paper); font-size:13px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; font-family:'Work Sans',sans-serif; font-weight:600;}
+  footer ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px;}
+  footer a{ text-decoration:none; }
+  footer a:hover{ color:var(--mustard); }
+  .foot-bottom{ display:flex; justify-content:space-between; padding-top:20px; flex-wrap:wrap; gap:10px;}
+
+  /* ---------- cart drawer ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(32,25,20,0.45);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:90;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:min(400px, 92vw);
+    background:var(--paper); z-index:95;
+    transform:translateX(100%); transition:transform .32s cubic-bezier(.65,0,.35,1);
+    display:flex; flex-direction:column;
+    box-shadow:-20px 0 50px -20px rgba(0,0,0,0.3);
+  }
+  .drawer.open{ transform:translateX(0); }
+  .drawer-head{
+    padding:22px 24px; border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .drawer-head h3{ font-family:'Fraunces',serif; font-size:22px; }
+  .drawer-close{ background:none; border:none; font-size:22px; }
+  .drawer-items{ flex:1; overflow-y:auto; padding:18px 24px; }
+  .drawer-item{
+    display:flex; gap:12px; align-items:center; padding:14px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .drawer-item .icon-wrap{ width:50px; height:50px; margin:0; flex:0 0 auto;}
+  .drawer-item .icon-wrap svg{ width:60%; height:60%; }
+  .drawer-item-info{ flex:1; }
+  .drawer-item-info h4{ font-size:14.5px; margin:0 0 4px; font-weight:600; }
+  .qty-row{ display:flex; align-items:center; gap:10px; }
+  .qty-btn{
+    width:24px;height:24px;border-radius:50%; border:1px solid var(--line); background:none;
+    font-size:14px; display:flex; align-items:center; justify-content:center;
+  }
+  .qty-num{ font-family:'Space Mono',monospace; font-size:13px; min-width:16px; text-align:center;}
+  .drawer-item-price{ font-family:'Space Mono',monospace; font-size:14px; font-weight:700; }
+  .drawer-empty{ text-align:center; padding:60px 20px; color:rgba(36,31,26,0.5); font-size:14px;}
+  .drawer-foot{ padding:20px 24px 26px; border-top:1px solid var(--line); }
+  .drawer-total{ display:flex; justify-content:space-between; font-family:'Space Mono',monospace; font-weight:700; font-size:16px; margin-bottom:16px;}
+  .checkout-btn{
+    width:100%; background:var(--rust); color:var(--paper); border:none;
+    padding:15px; border-radius:30px; font-weight:600; font-size:15px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:920px){
+    .hero-inner{ grid-template-columns:1fr; }
+    .story-inner{ grid-template-columns:1fr; }
+    .grid{ grid-template-columns:repeat(2,1fr); }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+    .cat-strip{ top:64px; }
+  }
+  @media (max-width:640px){
+    .nav-links{
+      position:fixed; top:64px; left:0; right:0; background:var(--cream);
+      flex-direction:column; align-items:flex-start; padding:20px 28px;
+      border-bottom:1px solid var(--line);
+      transform:translateY(-130%); transition:transform .25s ease;
+      gap:18px;
+    }
+    .nav-links.open{ transform:translateY(0); }
+    .menu-toggle{ display:block; font-size:22px; }
+    .grid{ grid-template-columns:1fr 1fr; gap:14px; }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">
+      <span class="mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C9 6 6 9 6 13a6 6 0 0012 0c0-4-3-7-6-11z" fill="#D9A441"/></svg>
+      </span>
+      Bramble &amp; Co.
+    </div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#shop">Shop</a>
+      <a href="#story">Our Story</a>
+      <a href="#visit">Visit</a>
+      <a href="#" class="cart-btn" id="cartOpenBtn">
+        Basket <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="chalk-texture"></div>
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow">Open daily, 7am – 8pm</p>
+      <h1>Groceries <em>worth</em><br>a slow Sunday.</h1>
+      <p class="hero-sub">A neighborhood market stocked from small farms, family bakeries, and the kind of pantry staples that make a weeknight dinner taste like more effort than it was.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Browse the stalls</button>
+        <a href="#story" class="btn-ghost">Meet the growers</a>
+      </div>
+    </div>
+    <div class="board">
+      <p class="eyebrow">Today's Harvest Board</p>
+      <ul>
+        <li><span>Heirloom tomatoes, Rosa Farm</span><span>in season</span></li>
+        <li><span>Sourdough, baked 5am</span><span>12 left</span></li>
+        <li><span>Brown butter, small batch</span><span>new</span></li>
+        <li><span>Stone fruit crate</span><span>weekend only</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="cat-strip">
+  <div class="wrap cat-scroll" id="catScroll">
+    <button class="cat-pill active" data-cat="all">All</button>
+    <button class="cat-pill" data-cat="produce">Produce</button>
+    <button class="cat-pill" data-cat="bakery">Bakery</button>
+    <button class="cat-pill" data-cat="pantry">Pantry</button>
+    <button class="cat-pill" data-cat="dairy">Dairy &amp; Eggs</button>
+  </div>
+</div>
+
+<section class="section" id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">From the stalls</p>
+        <h2>This week's picks</h2>
+      </div>
+    </div>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap story-inner">
+    <figure class="polaroid">
+      <div class="photo"></div>
+      <figcaption>Sunday market, since 1994</figcaption>
+    </figure>
+    <div>
+      <h2>Started as a <em>fruit stand</em>,<br>never stopped being one.</h2>
+      <p>Bramble &amp; Co. began as three crates of apples outside a hardware store. Three decades later we're still buying direct from growers we know by name, still closing the register by hand, and still betting that good ingredients don't need much dressing up.</p>
+      <div class="stat-row">
+        <div class="stat"><b>40+</b><span>Local farms</span></div>
+        <div class="stat"><b>1994</b><span>Founded</span></div>
+        <div class="stat"><b>6am</b><span>Daily bread</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="receipt-section" id="visit">
+  <div class="wrap">
+    <div class="receipt">
+      <div class="receipt-header">
+        <p class="eyebrow">Join the list</p>
+        <div class="display">Bramble &amp; Co.</div>
+      </div>
+      <hr>
+      <div class="receipt-line"><span>What's in season</span><span>weekly</span></div>
+      <div class="receipt-line"><span>Recipes from the counter</span><span>weekly</span></div>
+      <div class="receipt-line"><span>First look, weekend crates</span><span>fri</span></div>
+      <hr>
+      <form class="receipt-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Signed up ✓'; this.querySelector('input').value='';">
+        <input type="email" placeholder="you@email.com" required>
+        <button type="submit">Sign up</button>
+      </form>
+      <p class="receipt-note">No spam. Unsubscribe any Sunday.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Bramble &amp; Co.</h4>
+        <p style="max-width:220px; line-height:1.6;">118 Orchard Lane<br>Open daily, 7am – 8pm</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#shop">Produce</a></li>
+          <li><a href="#shop">Bakery</a></li>
+          <li><a href="#shop">Pantry</a></li>
+          <li><a href="#shop">Dairy &amp; Eggs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Market</h4>
+        <ul>
+          <li><a href="#story">Our farms</a></li>
+          <li><a href="#story">Our story</a></li>
+          <li><a href="#visit">Newsletter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="#">Directions</a></li>
+          <li><a href="#">Catering orders</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Bramble &amp; Co. Market</span>
+      <span>Made with a little flour on the hands</span>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="draw
