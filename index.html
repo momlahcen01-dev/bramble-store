@@ -153,8 +153,27 @@
   .tiers{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px;}
   .card{
     background:linear-gradient(180deg, var(--panel), #0a0d24);
-    border:1px solid var(--line); border-radius:12px; padding:30px 26px;
+    border:1px solid var(--line); border-radius:12px; padding:0 0 30px;
     position:relative; overflow:hidden; transition:transform .3s, border-color .3s;
+  }
+  .card-body{padding:24px 26px 0;}
+  .card-img{
+    position:relative; width:100%; aspect-ratio:16/10; overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .card-img img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:saturate(1.1) contrast(1.05);
+  }
+  .card-img::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(7,9,20,0) 40%, rgba(7,9,20,.9) 100%);
+  }
+  .card-img .rating-chip{
+    position:absolute; top:12px; right:12px; z-index:1;
+    font-family:'Orbitron'; font-size:12px; font-weight:700; color:#04040c;
+    background:var(--card-glow,var(--cyan)); padding:5px 10px; border-radius:5px;
+    box-shadow:0 0 14px rgba(0,0,0,.4);
   }
   .card::before{
     content:''; position:absolute; inset:0; border-radius:12px; padding:1px;
@@ -311,6 +330,11 @@
 
     <div class="tiers">
       <div class="card bronze">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1614632537423-1e6c2e7e0aab?w=600&h=375&fit=crop" alt="Bronze Pack account preview">
+          <span class="rating-chip">85–90 OVR</span>
+        </div>
+        <div class="card-body">
         <span class="badge">STARTER XI</span>
         <div class="tier-name">Bronze Pack</div>
         <div class="tier-desc">A solid entry account for new managers — decent squad rating with room to build.</div>
@@ -323,9 +347,15 @@
           <li>Instant delivery</li>
         </ul>
         <a href="#contact" class="card-btn">GET BRONZE</a>
+        </div>
       </div>
 
       <div class="card silver">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1552667466-07770ae110d0?w=600&h=375&fit=crop" alt="Silver Pack account preview">
+          <span class="rating-chip">91–95 OVR</span>
+        </div>
+        <div class="card-body">
         <span class="badge">FAN FAVORITE</span>
         <div class="tier-name">Silver Pack</div>
         <div class="tier-desc">Balanced squads with a few featured epics — the most popular pick among buyers.</div>
@@ -338,9 +368,15 @@
           <li>Full original email access</li>
         </ul>
         <a href="#contact" class="card-btn">GET SILVER</a>
+        </div>
       </div>
 
       <div class="card gold">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&h=375&fit=crop" alt="Gold Pack account preview">
+          <span class="rating-chip">96–99 OVR</span>
+        </div>
+        <div class="card-body">
         <span class="badge">HIGH DEMAND</span>
         <div class="tier-name">Gold Pack</div>
         <div class="tier-desc">Stacked rosters built for competitive Division 1 play, with strong GK and defensive depth.</div>
@@ -353,9 +389,15 @@
           <li>Priority delivery & warranty</li>
         </ul>
         <a href="#contact" class="card-btn">GET GOLD</a>
+        </div>
       </div>
 
       <div class="card legend">
+        <div class="card-img">
+          <img src="images/legend-account-1.jpg" alt="Legend Pack account preview — 3231 collective strength squad">
+          <span class="rating-chip">99+ OVR</span>
+        </div>
+        <div class="card-body">
         <span class="badge">TOP TIER</span>
         <div class="tier-name">Legend Pack</div>
         <div class="tier-desc">End-game accounts — maxed contracts, deep Legendary lineup, and elite Dream Team stats.</div>
@@ -368,6 +410,7 @@
           <li>30-day account warranty</li>
         </ul>
         <a href="#contact" class="card-btn">GET LEGEND</a>
+        </div>
       </div>
     </div>
   </div>
@@ -422,55 +465,4 @@
         <p>Pay through a protected method — card, PayPal, or crypto. Your order is confirmed instantly.</p>
       </div>
       <div class="step">
-        <div class="circle">3</div>
-        <h3>Receive & play</h3>
-        <p>Login details land in your inbox in minutes. Change credentials and jump straight into matches.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="reviews">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-eyebrow">FROM THE STANDS</span>
-      <h2>What buyers are saying</h2>
-    </div>
-    <div class="reviews">
-      <div class="review">
-        <div class="stars">★★★★★</div>
-        <p>"Bought a Gold Pack and had my login within 8 minutes. Squad was exactly as described."</p>
-        <div class="who"><b>Youssef R.</b> — Casablanca</div>
-      </div>
-      <div class="review">
-        <div class="stars">★★★★★</div>
-        <p>"Support answered at 1am on Telegram. Legend account has been rock solid for two months."</p>
-        <div class="who"><b>Marco D.</b> — Milan</div>
-      </div>
-      <div class="review">
-        <div class="stars">★★★★★</div>
-        <p>"My go-to store now. Third account I've bought here and every one has been clean."</p>
-        <div class="who"><b>Amine T.</b> — Rabat</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="contact">
-  <div class="wrap">
-    <div class="cta-band">
-      <h2>Ready to upgrade your squad?</h2>
-      <p>Message us now and we'll match you with the right account in minutes.</p>
-      <div class="hero-actions">
-        <a href="https://www.instagram.com/lahcenelgoutni?igsh=MWNjd21kbndhdmkzMg==" target="_blank" rel="noopener" class="btn btn-primary">CHAT ON INSTAGRAM</a>
-        <a href="#" class="btn btn-ghost">CHAT ON TELEGRAM</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="logo" style="margin-bottom:14px;">LAHCEN<span>.</span
+        <div class
